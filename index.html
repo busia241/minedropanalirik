@@ -33,15 +33,15 @@ body{
 .mparticle{
   position:fixed;
   top:-80px;
-  width:40px;
-  height:40px;
+  width:24px;
+  height:24px;
   background-size:contain;
   background-repeat:no-repeat;
   background-position:center;
   pointer-events:none;
   animation:mpFall linear infinite, mpFloat ease-in-out infinite;
   z-index:1;
-  opacity:.9;
+  opacity:.7;
   image-rendering:pixelated;
 }
 @keyframes mpFall{
@@ -96,7 +96,7 @@ body{
   width:100%;
   text-align:center;
   z-index:5;
-  padding:20px;
+  padding:20px 15px;
 }
 
 .video-box{
@@ -119,12 +119,12 @@ video{
 }
 
 .play-btn{
-  margin:35px auto 0;
+  margin:25px auto 0;
   width:100%;
   max-width:320px;
-  padding:16px 20px;
+  padding:14px 18px;
   font-family:BenzinBold;
-  font-size:18px;
+  font-size:17px;
   border-radius:50px;
   border:none;
   cursor:pointer;
@@ -134,12 +134,12 @@ video{
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:10px;
+  gap:8px;
   animation:pulse 2s infinite;
 }
 .play-btn img.pickaxe-icon{
-  width:30px;
-  height:30px;
+  width:24px;
+  height:24px;
   image-rendering:pixelated;
 }
 @keyframes pulse{
@@ -148,60 +148,91 @@ video{
 }
 
 h2{
-  margin-top:50px;
+  margin-top:35px;
   font-family:BenzinBold;
   background:linear-gradient(135deg,#fff,#b3e5ff);
   -webkit-background-clip:text;
   background-clip:text;
   -webkit-text-fill-color:transparent;
-  font-size:24px;
+  font-size:22px;
   padding:0 10px;
+  line-height:1.3;
 }
 
 .tg-btn{
   display:inline-block;
-  margin-top:30px;
-  padding:16px 35px;
+  margin-top:25px;
+  padding:14px 30px;
   font-family:BenzinBold;
   border-radius:50px;
   background:linear-gradient(135deg,#00b7ff,#007fff);
   color:#fff;
   text-decoration:none;
-  font-size:16px;
+  font-size:15px;
 }
 
 /* Мобильная адаптация */
 @media (max-width: 480px){
   .container{
-    padding:15px;
+    padding:12px 10px 20px;
   }
   
   .video-box{
     max-width:100%;
-    border-radius:16px;
+    border-radius:14px;
+    margin-bottom:5px;
   }
   
   .play-btn{
-    margin-top:30px;
-    padding:18px 22px;
-    font-size:17px;
+    margin-top:20px;
+    padding:15px 18px;
+    font-size:16px;
     max-width:100%;
   }
   
+  .play-btn img.pickaxe-icon{
+    width:22px;
+    height:22px;
+  }
+  
   h2{
-    margin-top:40px;
-    font-size:22px;
-    padding:0 15px;
+    margin-top:28px;
+    font-size:20px;
+    padding:0 10px;
   }
   
   .tg-btn{
-    margin-top:25px;
-    padding:18px 32px;
-    font-size:15px;
+    margin-top:20px;
+    padding:14px 28px;
+    font-size:14px;
     display:block;
-    max-width:280px;
+    max-width:260px;
     margin-left:auto;
     margin-right:auto;
+  }
+  
+  .popup{
+    padding:15px;
+  }
+  
+  .popup-box{
+    padding:18px 16px;
+    max-width:100%;
+  }
+  
+  .popup-box h3{
+    font-size:16px;
+    margin-bottom:10px;
+  }
+  
+  .popup-box p{
+    font-size:13px;
+    margin-bottom:18px;
+  }
+  
+  .popup-box .tg-btn{
+    padding:13px 26px;
+    font-size:14px;
   }
 }
 
@@ -227,11 +258,29 @@ h2{
 .popup-box{
   background:rgba(255,255,255,.12);
   backdrop-filter:blur(18px);
-  padding:18px;
+  padding:20px 18px;
   border-radius:18px;
   text-align:center;
   max-width:320px;
   width:100%;
+}
+
+.popup-box h3{
+  font-size:18px;
+  margin-bottom:12px;
+  line-height:1.4;
+}
+
+.popup-box p{
+  font-size:14px;
+  margin-bottom:20px;
+  opacity:0.9;
+}
+
+.popup-box .tg-btn{
+  margin-top:0;
+  padding:14px 28px;
+  font-size:15px;
 }
 
 .win-amount{
@@ -293,19 +342,21 @@ setInterval(()=>{
   el.className='mparticle';
   el.style.left=Math.random()*100+'vw';
 
-  const size=64+Math.random()*56; // 64–120px — ещё крупнее
+  // Уменьшенный размер для мобильных
+  const isMobile = window.innerWidth <= 480;
+  const size = isMobile ? (20 + Math.random() * 15) : (32 + Math.random() * 24); // 20-35px на мобильных, 32-56px на десктопе
   el.style.width=size+'px';
   el.style.height=size+'px';
 
   const img=sprites[Math.floor(Math.random()*sprites.length)];
   el.style.backgroundImage=`url("${img}")`;
 
-  const fallDur=10+Math.random()*8; // 10–18 c
-  el.style.animationDuration=fallDur+'s, '+(6+Math.random()*4)+'s';
+  const fallDur=isMobile ? (8+Math.random()*6) : (10+Math.random()*8); // 8-14с на мобильных, 10-18с на десктопе
+  el.style.animationDuration=fallDur+'s, '+(5+Math.random()*3)+'s';
 
   document.body.appendChild(el);
   setTimeout(()=>el.remove(),(fallDur+3)*1000);
-},650);
+},isMobile ? 800 : 650); // Реже на мобильных
 
 /* PRELOADER */
 const percentEl=document.getElementById('percent');
