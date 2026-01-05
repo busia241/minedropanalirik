@@ -2,7 +2,10 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Испытай удачу</title>
 
 <link rel="preload" href="fonts/BenzinBold.woff2" as="font" type="font/woff2" crossorigin>
@@ -304,7 +307,7 @@ h2{
 <!-- MAIN -->
 <div class="container">
   <div class="video-box">
-    <video id="video" poster="images/photo_2025-12-05_18-15-40.png" preload="metadata" playsinline muted>
+    <video id="video" poster="images/photo_2025-12-05_18-15-40.png" preload="metadata" playsinline webkit-playsinline muted disablePictureInPicture disableRemotePlayback>
       <source src="video/promo2.mp4" type="video/mp4">
     </video>
   </div>
@@ -416,6 +419,59 @@ video.addEventListener('loadeddata', ()=>{
     video.pause();
   }
 });
+
+// Блокируем полноэкранный режим для всех браузеров
+video.addEventListener('webkitbeginfullscreen', (e)=>{
+  e.preventDefault();
+  e.stopPropagation();
+  return false;
+}, {capture: true});
+
+video.addEventListener('webkitendfullscreen', (e)=>{
+  e.preventDefault();
+  e.stopPropagation();
+  return false;
+}, {capture: true});
+
+video.addEventListener('fullscreenchange', (e)=>{
+  if(document.fullscreenElement === video || document.webkitFullscreenElement === video || document.mozFullScreenElement === video){
+    document.exitFullscreen?.();
+    document.webkitExitFullscreen?.();
+    document.mozCancelFullScreen?.();
+  }
+}, {capture: true});
+
+// Блокируем попытки открыть в Picture-in-Picture
+video.addEventListener('enterpictureinpicture', (e)=>{
+  e.preventDefault();
+  if(document.pictureInPictureElement){
+    document.exitPictureInPicture();
+  }
+}, {capture: true});
+
+// Устанавливаем атрибуты программно для надежности
+video.setAttribute('playsinline', 'true');
+video.setAttribute('webkit-playsinline', 'true');
+video.setAttribute('x5-playsinline', 'true'); // Для китайских браузеров (включая TikTok)
+video.setAttribute('disablePictureInPicture', 'true');
+video.setAttribute('disableRemotePlayback', 'true');
+video.setAttribute('controls', 'false'); // Явно отключаем контролы
+
+// Блокируем клики по видео, чтобы не открывались нативные контролы
+video.addEventListener('click', (e)=>{
+  e.preventDefault();
+  e.stopPropagation();
+  // Вместо нативного поведения запускаем через нашу кнопку
+  if(!userClickedPlay){
+    document.getElementById('play').click();
+  }
+}, {capture: true});
+
+// Блокируем контекстное меню на видео
+video.addEventListener('contextmenu', (e)=>{
+  e.preventDefault();
+  return false;
+}, {capture: true});
 
 /* VIDEO + POPUP */
 document.getElementById('play').onclick=async()=>{
