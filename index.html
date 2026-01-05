@@ -304,7 +304,7 @@ h2{
 <!-- MAIN -->
 <div class="container">
   <div class="video-box">
-    <video id="video" poster="images/photo_2025-12-05_18-15-40.png" preload="none" playsinline muted>
+    <video id="video" poster="images/photo_2025-12-05_18-15-40.png" preload="metadata" playsinline muted>
       <source src="video/promo2.mp4" type="video/mp4">
     </video>
   </div>
@@ -337,13 +337,15 @@ const sprites=[
   "images/pickaxe.png.png"
 ];
 
+// Определяем мобильное устройство один раз
+const isMobile = window.innerWidth <= 480;
+
 setInterval(()=>{
   const el=document.createElement('div');
   el.className='mparticle';
   el.style.left=Math.random()*100+'vw';
 
   // Уменьшенный размер для мобильных
-  const isMobile = window.innerWidth <= 480;
   const size = isMobile ? (20 + Math.random() * 15) : (32 + Math.random() * 24); // 20-35px на мобильных, 32-56px на десктопе
   el.style.width=size+'px';
   el.style.height=size+'px';
@@ -389,7 +391,11 @@ function finishLoader(){
   },15);
 }
 
+// Загружаем метаданные видео для прелоадера
+video.load();
+
 video.addEventListener('loadeddata', finishLoader, { once:true });
+video.addEventListener('loadedmetadata', finishLoader, { once:true });
 setTimeout(finishLoader, 4000);
 
 // Строгая защита от автозапуска видео
