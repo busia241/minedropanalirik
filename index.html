@@ -96,6 +96,7 @@ body{
   width:100%;
   text-align:center;
   z-index:5;
+  padding:20px;
 }
 
 .video-box{
@@ -118,10 +119,10 @@ video{
 }
 
 .play-btn{
-  margin:25px auto 0;
+  margin:35px auto 0;
   width:100%;
   max-width:320px;
-  padding:14px 18px;
+  padding:16px 20px;
   font-family:BenzinBold;
   font-size:18px;
   border-radius:50px;
@@ -147,23 +148,61 @@ video{
 }
 
 h2{
-  margin-top:40px;
+  margin-top:50px;
   font-family:BenzinBold;
   background:linear-gradient(135deg,#fff,#b3e5ff);
   -webkit-background-clip:text;
   background-clip:text;
   -webkit-text-fill-color:transparent;
+  font-size:24px;
+  padding:0 10px;
 }
 
 .tg-btn{
   display:inline-block;
-  margin-top:20px;
-  padding:14px 30px;
+  margin-top:30px;
+  padding:16px 35px;
   font-family:BenzinBold;
   border-radius:50px;
   background:linear-gradient(135deg,#00b7ff,#007fff);
   color:#fff;
   text-decoration:none;
+  font-size:16px;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 480px){
+  .container{
+    padding:15px;
+  }
+  
+  .video-box{
+    max-width:100%;
+    border-radius:16px;
+  }
+  
+  .play-btn{
+    margin-top:30px;
+    padding:18px 22px;
+    font-size:17px;
+    max-width:100%;
+  }
+  
+  h2{
+    margin-top:40px;
+    font-size:22px;
+    padding:0 15px;
+  }
+  
+  .tg-btn{
+    margin-top:25px;
+    padding:18px 32px;
+    font-size:15px;
+    display:block;
+    max-width:280px;
+    margin-left:auto;
+    margin-right:auto;
+  }
 }
 
 /* ===== POPUP ===== */
